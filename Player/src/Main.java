@@ -5,6 +5,11 @@
  * make changes if needed
  * add methods if needed, I don't think we need another class
  * most important thing: make it so that turning and moving does things
+ * Edit: I made turning work however I did not have enough time to figure out moving forward
+ * I did however add methods and variables to assist with this. 
+ * I put an if statement under the if statement for turning in which you can put the moving inside
+ * I added int ifmove, getMove() (return ifMove), I added String[][] dalekPostion (THIS LAST ARRAY MAY NOT BE NEEDED)
+ * 
  */
 
 import java.util.ArrayList;
@@ -14,10 +19,9 @@ public class Main
 {
    public static void main(String[] args)
    {
-      System.out.println("does it work???");
       Dalek dalek = new Dalek(1, 8, 1);
       World world = new World();
-      world.display(); 
+      world.display(dalek.getDirection(), dalek.getY(), dalek.getX(), dalek.getMove()); 
       
       Scanner keyboard = new Scanner(System.in);
       String command = "";
@@ -32,7 +36,7 @@ public class Main
           }
           else if (command.equals("a"))
           {
-            dalek.turnLeft();
+              dalek.turnLeft();
           }
           else if (command.equals("w"))
           {
@@ -40,7 +44,7 @@ public class Main
           }
             
           clearScreen();
-          world.display(); //prints level
+          world.display(dalek.getDirection(), dalek.getY(), dalek.getX(), dalek.getMove()); //prints level
         }
       
   }
@@ -56,6 +60,7 @@ class Dalek
    private int myDirection; // 1 for right, 2 for down, 3 for left, 4 for up
    private int myX; //the column that the Dalek is in
    private int myY; // the row that the Dalek in in
+   private int ifMove;
                    // NOTE: myX would come afer myY. ex: Floor1[myY][myX] = "v";
    public Dalek()
     {
@@ -69,6 +74,26 @@ class Dalek
         myDirection = direction;
         myY = y;
         myX = x;
+    }
+    
+    public int getDirection()
+    {
+      return myDirection;
+    }
+    
+    public int getX()
+    {
+      return myX;
+    }
+    
+    public int getY()
+    {
+      return myY;
+    }
+    
+    public int getMove()
+    {
+      return ifMove;
     }
     
     public void turnRight()
@@ -89,6 +114,7 @@ class Dalek
     // move in the current pointed direction
     public void move()
     {
+      ifMove = 1;
       if (myDirection == 1) //if facing right
       {
          myX += 1;
@@ -117,14 +143,43 @@ class World
       currentFloor = Levels.getFloor1();
    }
    
-   public void display()
+   public void display(int myDirection, int myY, int myX, int ifMove)
    { 
       
       int i = 0; // column number
       int k = 0; // row number
       int j;
+      
+      String[][] dalekPosition;
+      
       for (j = 0; j < (currentFloor[0].length * currentFloor.length); j++) // Changed from Floor1 to currentFloor; we only handle one lvl at a time so > 1 loop !needed 
       {
+      
+         
+         if ((k == myY) && (i == myX))
+         {
+            if (myDirection == 1)
+            {
+               currentFloor[k][i] = ">";
+            }
+            else if (myDirection == 3)
+            {
+               currentFloor[k][i] = "<";
+            }
+            else if (myDirection == 2)
+            {
+               currentFloor[k][i] = "v";
+            }
+            else if (myDirection == 4)
+            {
+               currentFloor[k][i] = "^";
+            }
+            
+            if (ifMove == 1) //PUT CODE UNDER HERE
+            {
+            }
+         }
+         
          System.out.print(currentFloor[k][i]);
          i ++;
          if (i == currentFloor[0].length)
