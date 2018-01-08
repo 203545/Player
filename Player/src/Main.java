@@ -6,10 +6,11 @@
  * add methods if needed, I don't think we need another class
  * most important thing: make it so that turning and moving does things
  * Edit: I made turning work however I did not have enough time to figure out moving forward
- * I did however add methods and variables to assist with this. 
- * I put an if statement under the if statement for turning in which you can put the moving inside
- * I added int ifmove, getMove() (return ifMove), I added String[][] dalekPostion (THIS LAST ARRAY MAY NOT BE NEEDED)
- * 
+ * I added int ifmove, getMove() (return ifMove)
+ * PROBLEMS THAT NEED FIXING: When turning after moving the turned dalek appears one space before the dalek's position, should replace dalek's position
+ * When moving a turned dalek there is out of bounds exception. This isn't because the dalek is going out of bounds but instead because the array is running out of spaces to print
+ * The first move a player makes goes 2 spaces instead of one; further more if you un-comment the comment after you create  world the first dalek position isn't erased
+ *
  */
 
 import java.util.ArrayList;
@@ -19,14 +20,14 @@ public class Main
 {
    public static void main(String[] args)
    {
-      Dalek dalek = new Dalek(1, 8, 1);
+      Dalek dalek = new Dalek(1, 8, 1, 0);
       World world = new World();
-      world.display(dalek.getDirection(), dalek.getY(), dalek.getX(), dalek.getMove()); 
+      //world.display(dalek.getDirection(), dalek.getY(), dalek.getX(), dalek.getMove()); 
       
       Scanner keyboard = new Scanner(System.in);
       String command = "";
       
-      while (!(command.equals("exit") || command.equals("e"))) //NOTE THAT CURRENTLY NONE OF THIS WORKS; add methods and classes for each, follow demo
+      while (!(command.equals("exit") || command.equals("e")))
       {
           command = keyboard.nextLine();
          
@@ -45,6 +46,7 @@ public class Main
             
           clearScreen();
           world.display(dalek.getDirection(), dalek.getY(), dalek.getX(), dalek.getMove()); //prints level
+          dalek.setMove(0);
         }
       
   }
@@ -67,13 +69,15 @@ class Dalek
         myDirection = 1;
         myY = 0;
         myX = 0;
+        ifMove = 0;
     }
     
-    public Dalek(int direction, int y, int x)
+    public Dalek(int direction, int y, int x, int move)
     {
         myDirection = direction;
         myY = y;
         myX = x;
+        ifMove = move;
     }
     
     public int getDirection()
@@ -95,6 +99,12 @@ class Dalek
     {
       return ifMove;
     }
+    
+    public void setMove(int move)
+    {
+      ifMove = move;
+    }
+    
     
     public void turnRight()
     {
@@ -125,11 +135,11 @@ class Dalek
       }
       else if (myDirection == 2) //if facing down
       {
-         myY -= 1;
+         myY += 1;
       }
       else if (myDirection == 4) //if facing up
       {
-         myY += 1;
+         myY -= 1;
       }
    }
 }
@@ -150,8 +160,11 @@ class World
       int k = 0; // row number
       int j;
       
-      String[][] dalekPosition;
+      String dalekPosition = " "; //Variable to temp save the dalek's direc (therefore able to see future pos) for shorter code
+      int futurePosY = 0; //Variable that goes hand-in-hand with dalekPosition to store the dalek's future pos; should only be set to +-1
+      int futurePosX = 0; //Variable that goes hand-in-hand with dalekPosition to store the dalek's future pos; should only be set to +-1
       
+      //THIS ENTIRE PART I DID RUSHING SO THERE MAY BE SIMPLER LOGIC, CHECK TO SEE IF CASE, IF SO SIMPLIFY IT//
       for (j = 0; j < (currentFloor[0].length * currentFloor.length); j++) // Changed from Floor1 to currentFloor; we only handle one lvl at a time so > 1 loop !needed 
       {
       
@@ -160,23 +173,36 @@ class World
          {
             if (myDirection == 1)
             {
-               currentFloor[k][i] = ">";
+               dalekPosition = ">";
+               futurePosX = 1; //dalek only moves over X so only have to set X
             }
             else if (myDirection == 3)
             {
-               currentFloor[k][i] = "<";
+               dalekPosition = "<";
+               futurePosX = -1;
             }
             else if (myDirection == 2)
             {
-               currentFloor[k][i] = "v";
+               dalekPosition = "v";
+               futurePosY = 1;
             }
             else if (myDirection == 4)
             {
-               currentFloor[k][i] = "^";
+               dalekPosition = "^";
+               futurePosY = -1;
             }
             
-            if (ifMove == 1) //PUT CODE UNDER HERE
+            if (ifMove == 1) 
             {
+               currentFloor[myY + futurePosY][myX + futurePosX] = dalekPosition;
+               currentFloor[k][i] = " ";
+            }
+            
+            else if (ifMove == 0)
+            {
+               currentFloor[myY][myX] = dalekPosition;
+               futurePosY = 0; //ALWAYS RESET THESE
+               futurePosX = 0; 
             }
          }
          
