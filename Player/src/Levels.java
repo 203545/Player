@@ -12,10 +12,6 @@
 
 public class Levels
 {
-   public static void main(String[] args) //this should never execute
-   {
-      System.out.println("error");
-   }
    
    public static String[][] getFloor1()
    {
@@ -34,7 +30,8 @@ public class Levels
       return Floor1;
   }
   
-  public static String[][] getFloor2()
+  //rn there is error where code prints both floors, idky it is happening, will eventually bring lvl 2 back if enough time
+  /* public static String[][] getFloor2()
   {
    String[][] Floor2 = {
       {"_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_"}, 
@@ -54,5 +51,5 @@ public class Levels
       {"|", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "|"}};
       
       return Floor2;
-   }
+   }*/
 }
