@@ -4,14 +4,13 @@
  * familarize  yourslef with what they do
  * make changes if needed
  * add methods if needed, I don't think we need another class
- * most important thing: make it so that turning and moving does things
- * Edit: I made turning work however I did not have enough time to figure out moving forward
- * I added int ifmove, getMove() (return ifMove)
- * PROBLEMS THAT NEED FIXING: When turning after moving the turned dalek appears one space before the dalek's position, should replace dalek's position
- * When moving a turned dalek there is out of bounds exception. This isn't because the dalek is going out of bounds but instead because the array is running out of spaces to print
- * The first move a player makes goes 2 spaces instead of one; further more if you un-comment the comment after you create  world the first dalek position isn't erased
- *
- */
+ * JAN 10 EDIT:
+ * - Movement now works, I fixed it by moving the if statement and putting the editing currentFloor above for loop
+ * - If you want the long explanaion what what I did and why it worked you can ask me after school
+ * TODO:
+ * - Add Colission Detection
+ * - If the dalek reaches the companion end the game
+ */ 
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -161,10 +160,8 @@ class World
       int j;
       
       String dalekPosition = " "; //Variable to temp save the dalek's direc (therefore able to see future pos) for shorter code
-      int futurePosY = 0; //Variable that goes hand-in-hand with dalekPosition to store the dalek's future pos; should only be set to +-1
-      int futurePosX = 0; //Variable that goes hand-in-hand with dalekPosition to store the dalek's future pos; should only be set to +-1
-      /*int previousPosY;
-      int previousPosX;
+      int previousPosY = 0; //Variables that goes hand-in-hand with dalekPosition to store the dalek's previous pos; should only be set to +-1
+      int previousPosX = 0;
       
       if (myDirection == 1)
       {
@@ -190,59 +187,22 @@ class World
       if (ifMove == 1)
       {
          currentFloor[myY][myX] = dalekPosition;
-         currentFloor[myY + previousYPos][myX + previousXPos] = " ";
+         currentFloor[myY + previousPosY][myX + previousPosX] = " ";
          previousPosY = 0;
          previousPosX = 0;
       }
       else if (ifMove == 0)
       {
-         currentFloor[myY][my] = dalekPosition;
+         currentFloor[myY][myX] = dalekPosition;
          previousPosY = 0;
          previousPosX = 0;
-      } */
+      } 
       
       
-      //THIS ENTIRE PART I DID RUSHING SO THERE MAY BE SIMPLER LOGIC, CHECK TO SEE IF CASE, IF SO SIMPLIFY IT//
+      //DO NOT EDIT ANYTHING UNDER HERE, DO NOT ADD ANYTHING, ANYTHING LIKE COLISSION SHOULD BE ADDED ABOVE
       for (j = 0; j < (currentFloor[0].length * currentFloor.length); j++) // Changed from Floor1 to currentFloor; we only handle one lvl at a time so > 1 loop !needed 
       {
       
-         
-         if ((k == myY) && (i == myX))
-         {
-            if (myDirection == 1)
-            {
-               dalekPosition = ">";
-               futurePosX = 1; //dalek only moves over X so only have to set X
-            }
-            else if (myDirection == 3)
-            {
-               dalekPosition = "<";
-               futurePosX = -1;
-            }
-            else if (myDirection == 2)
-            {
-               dalekPosition = "v";
-               futurePosY = 1;
-            }
-            else if (myDirection == 4)
-            {
-               dalekPosition = "^";
-               futurePosY = -1;
-            }
-            
-            if (ifMove == 1) 
-            {
-               currentFloor[myY + futurePosY][myX + futurePosX] = dalekPosition;
-               currentFloor[k][i] = " ";
-            }
-            
-            else if (ifMove == 0)
-            {
-               currentFloor[myY][myX] = dalekPosition;
-               futurePosY = 0; //ALWAYS RESET THESE
-               futurePosX = 0; 
-            }
-         }
          
          System.out.print(currentFloor[k][i]);
          i ++;
