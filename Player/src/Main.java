@@ -163,6 +163,44 @@ class World
       String dalekPosition = " "; //Variable to temp save the dalek's direc (therefore able to see future pos) for shorter code
       int futurePosY = 0; //Variable that goes hand-in-hand with dalekPosition to store the dalek's future pos; should only be set to +-1
       int futurePosX = 0; //Variable that goes hand-in-hand with dalekPosition to store the dalek's future pos; should only be set to +-1
+      /*int previousPosY;
+      int previousPosX;
+      
+      if (myDirection == 1)
+      {
+         dalekPosition = ">";
+         previousPosX = -1;  //This will print a blank line where the dalek used to be
+      }
+      else if (myDirection == 3)
+      {
+         dalekPosition = "<";
+         previousPosX = 1;
+      }
+      else if (myDirection == 2)
+      {
+         dalekPosition = "v";
+         previousPosY = -1;
+      }
+      else if (myDirection == 4)
+      {
+         dalekPosition = "^";
+         previousPosY = 1;
+      }
+      
+      if (ifMove == 1)
+      {
+         currentFloor[myY][myX] = dalekPosition;
+         currentFloor[myY + previousYPos][myX + previousXPos] = " ";
+         previousPosY = 0;
+         previousPosX = 0;
+      }
+      else if (ifMove == 0)
+      {
+         currentFloor[myY][my] = dalekPosition;
+         previousPosY = 0;
+         previousPosX = 0;
+      } */
+      
       
       //THIS ENTIRE PART I DID RUSHING SO THERE MAY BE SIMPLER LOGIC, CHECK TO SEE IF CASE, IF SO SIMPLIFY IT//
       for (j = 0; j < (currentFloor[0].length * currentFloor.length); j++) // Changed from Floor1 to currentFloor; we only handle one lvl at a time so > 1 loop !needed 
