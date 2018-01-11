@@ -201,6 +201,16 @@ class World
          dalek.setX(myX);
          dalek.setY(myY);
       }
+      else if ((ifMove == 1) && (currentFloor[myY][myX].equals("c"))) //If player finds companion, the program sends a message and terminates
+      {
+         System.out.println("Congratulations, you found the companion!");
+         currentFloor[myY][myX] = dalekPosition;
+         currentFloor[myY + previousPosY][myX + previousPosX] = " ";
+         previousPosY = 0;
+         previousPosX = 0;
+         System.exit(0); //Terminates program; temporary if we add in other levels
+      }
+         
       else if (ifMove == 1)
       {
          currentFloor[myY][myX] = dalekPosition;
