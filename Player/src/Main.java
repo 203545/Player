@@ -155,11 +155,53 @@ class Dalek
 class World
 {
    private String[][] currentFloor;
+   private int myKey;
+   private int enemyY;
+   private int enemyX;
    
    public World()
    {
       currentFloor = Levels.getFloor1();
+      myKey = 0;
+      enemyY = 0;
+      enemyX = 0;
    }
+   
+   public void setKey(int key)
+   {
+      myKey = key;
+   }
+   
+   public void setEnemy(int Y, int X)
+   {
+      enemyY = Y;
+      enemyX = X;
+   }
+   
+   public void findEnemies(String[][] currentFloor)
+   {
+      int i = 0; // column number
+      int k = 0; // row number
+      int j;
+      
+      for (j = 0; j < (currentFloor[0].length * currentFloor.length); j++)
+      {   
+         if (currentFloor[k][i].equals("p"))
+         {
+            setEnemy(k, i);
+            break;
+         }
+         
+         i++;
+         if (i == currentFloor[k].length)
+         {
+            i = 0;
+            k++;
+         }
+      }
+   } 
+      
+      
    
    public void display(int myDirection, int myY, int myX, int ifMove, Dalek dalek)
    { 
@@ -193,7 +235,15 @@ class World
          previousPosY = 1;
       }
       
-      if ((ifMove == 1) && ((currentFloor[myY][myX].equals("_")) || (currentFloor[myY][myX].equals("|"))))
+      findEnemies(currentFloor); //Keeps the location of and enemy, updates each time player moves
+       
+      if (currentFloor[myY][myX] == currentFloor[enemyY][enemyX])
+      {
+         System.out.println("You have brutally plungered Tom");
+         currentFloor[myY][myX] = dalekPosition;
+         currentFloor[myY + previousPosY][myX + previousPosX] = " ";
+      }
+      else if ((ifMove == 1) && ((currentFloor[myY][myX].equals("_")) || (currentFloor[myY][myX].equals("|"))))
       {
          currentFloor[myY + previousPosY][myX + previousPosX] = dalekPosition;
          myX = myX + previousPosX;
@@ -201,6 +251,36 @@ class World
          dalek.setX(myX);
          dalek.setY(myY);
       }
+      else if ((ifMove == 1) && (currentFloor[myY][myX].equals("c"))) //If player finds companion, the program sends a message and terminates
+      {
+         System.out.println("Congratulations, you found the companion!\nYou have obtained the key!");
+         currentFloor[myY][myX] = dalekPosition;
+         currentFloor[myY + previousPosY][myX + previousPosX] = " ";
+         previousPosY = 0;
+         previousPosX = 0;
+         setKey(1);
+      }
+      else if ((ifMove == 1) && (currentFloor[myY][myX].equals("s")))
+      {
+         currentFloor[myY][myX] = dalekPosition;
+         if (myKey == 1)
+         {
+            System.out.println("You have won!");
+            currentFloor[myY + previousPosY][myX + previousPosX] = " ";
+            previousPosY = 0;
+            previousPosX = 0;
+            System.exit(0); //Terminates program; temporary if we add in other levels
+         }
+        else
+        {
+         System.out.println("Woah there! You don't have the key yet!\nYou still have to exterminate the companion still pardner");
+         currentFloor[myY][myX] = "s";
+         myX = myX + previousPosX;
+         myY = myY + previousPosY;
+         dalek.setX(myX);
+         dalek.setY(myY);
+        }
+     }
       else if (ifMove == 1)
       {
          currentFloor[myY][myX] = dalekPosition;
