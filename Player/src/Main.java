@@ -20,8 +20,7 @@ public class Main
    public static void main(String[] args)
    {
       Dalek dalek = new Dalek(1, 8, 1, 0);
-      World world = new World();
-      //world.display(dalek.getDirection(), dalek.getY(), dalek.getX(), dalek.getMove()); 
+      World world = new World();  
       
       Scanner keyboard = new Scanner(System.in);
       String command = "";
@@ -44,7 +43,7 @@ public class Main
           }
             
           clearScreen();
-          world.display(dalek.getDirection(), dalek.getY(), dalek.getX(), dalek.getMove()); //prints level
+          world.display(dalek.getDirection(), dalek.getY(), dalek.getX(), dalek.getMove(), dalek); //prints level
           dalek.setMove(0);
         }
       
@@ -97,6 +96,16 @@ class Dalek
     public int getMove()
     {
       return ifMove;
+    }
+    
+    public void setX(int X)
+    {
+      myX = X;
+    }
+    
+    public void setY(int Y)
+    {
+      myY = Y;
     }
     
     public void setMove(int move)
@@ -152,7 +161,7 @@ class World
       currentFloor = Levels.getFloor1();
    }
    
-   public void display(int myDirection, int myY, int myX, int ifMove)
+   public void display(int myDirection, int myY, int myX, int ifMove, Dalek dalek)
    { 
       
       int i = 0; // column number
@@ -184,7 +193,15 @@ class World
          previousPosY = 1;
       }
       
-      if (ifMove == 1)
+      if ((ifMove == 1) && ((currentFloor[myY][myX].equals("_")) || (currentFloor[myY][myX].equals("|"))))
+      {
+         currentFloor[myY + previousPosY][myX + previousPosX] = dalekPosition;
+         myX = myX + previousPosX;
+         myY = myY + previousPosY;
+         dalek.setX(myX);
+         dalek.setY(myY);
+      }
+      else if (ifMove == 1)
       {
          currentFloor[myY][myX] = dalekPosition;
          currentFloor[myY + previousPosY][myX + previousPosX] = " ";
