@@ -8,8 +8,7 @@
  * - Movement now works, I fixed it by moving the if statement and putting the editing currentFloor above for loop
  * - If you want the long explanaion what what I did and why it worked you can ask me after school
  * TODO:
- * - If the dalek reaches the companion end the game
- * - Create text events and add enemies
+ * - Just add text events
  */ 
 
 import java.util.ArrayList;
