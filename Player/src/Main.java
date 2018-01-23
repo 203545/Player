@@ -24,6 +24,8 @@ public class Main
       Scanner keyboard = new Scanner(System.in);
       String command = "";
       
+      System.out.println("Welcome to Dalek Destruction! You will be playing as a Dalek trying to exterminate the companion.\nGet to the companion to obtain the key, and then get to the stairwell to proceed!\n_ or | is a wall; ' ' is nothing\n> is a dalek; > is facing east, < is facing west, ^ is facing north, v is facing down\nc is the companion you need to exterminate; s is stairs up\nw is forward, a turns left, s is backward, and d turns right");
+      
       while (!(command.equals("exit") || command.equals("e")))
       {
           command = keyboard.nextLine();
@@ -127,7 +129,6 @@ class Dalek
          myDirection = 4;
     }
 
-    //TODO: ADD COLLISSION
     // move in the current pointed direction
     public void move()
     {
@@ -238,12 +239,13 @@ class World
        
       if (currentFloor[myY][myX] == currentFloor[enemyY][enemyX])
       {
-         System.out.println("You have brutally plungered Tom");
+         System.out.println("You come into contact with bystander Tom. Before he can run, you use your plunger and he's a goner.");
          currentFloor[myY][myX] = dalekPosition;
          currentFloor[myY + previousPosY][myX + previousPosX] = " ";
       }
       else if ((ifMove == 1) && ((currentFloor[myY][myX].equals("_")) || (currentFloor[myY][myX].equals("|"))))
       {
+         System.out.println("Make sure to stay within the walls!");
          currentFloor[myY + previousPosY][myX + previousPosX] = dalekPosition;
          myX = myX + previousPosX;
          myY = myY + previousPosY;
@@ -272,7 +274,7 @@ class World
          }
         else
         {
-         System.out.println("Woah there! You don't have the key yet!\nYou still have to exterminate the companion still pardner");
+         System.out.println("Woah there! You don't have the key yet!\nYou have to exterminate the companion still partner");
          currentFloor[myY][myX] = "s";
          myX = myX + previousPosX;
          myY = myY + previousPosY;
